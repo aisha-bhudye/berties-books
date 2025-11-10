@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bargain Books</title>
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+<body>
+    <h1>Bargain Books - Under £20</h1>
+
+    <% if (bargainBooks.length > 0) { %>
+        <ul>
+            <% for (let i = 0; i < bargainBooks.length; i++) { %>
+                <li>
+                    <%= bargainBooks[i].name %> - £<%= bargainBooks[i].price %>
+                </li>
+            <% } %>
+        </ul>
+    <% } else { %>
+        <p>No bargain books available at the moment.</p>
+    <% } %>
+
+    <br>
+</body>
+</html>

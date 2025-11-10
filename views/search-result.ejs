@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Search Results - <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+  </head>
+  <body>
+    <h1>Search Results for "<%= keyword %>"</h1>
+
+    <% if (books.length > 0) { %>
+      <p>Found <%= books.length %> book(s):</p>
+
+      <ul>
+        <% for (let i = 0; i < books.length; i++) { %>
+          <li>
+            <%= books[i].name %> - £<%= books[i].price %>
+          </li>
+        <% } %>
+      </ul>
+    <% } else { %>
+      <p>No books found matching "<%= keyword %>".</p>
+      <p>Please try a different search term.</p>
+    <% } %>
+
+    <br>
+  </body>
+</html>
