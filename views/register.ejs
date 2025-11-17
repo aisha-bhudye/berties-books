@@ -6,11 +6,13 @@
   </head>
   <body>
     <h1>Register for <%=shopData.shopName%></h1>
-    <form method="POST" action="registered">
-        <p>First name: <input id="first" type="text" name="first" /></p>
-        <p>Last name: <input id="last" type="text" name="last" /></p>
-        <p>Email: <input id="email" type="email" name="email" /></p>
-        <input type="submit" value="Register" />
+    <form method="POST" action="/users/registered">
+        First name: <input type="text" name="first"><br>
+        Last name: <input type="text" name="last"><br>
+        Email: <input type="email" name="email"><br>
+        Username: <input type="text" name="username"><br>
+        Password: <input type="password" name="password"><br>
+        <button type="submit">Register</button>
       </form>
   </body>
 </html>

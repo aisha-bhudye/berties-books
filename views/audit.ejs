@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Audit Log - <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+<body>
+    <h1>Login Audit Log</h1>
+    <p>Total attempts: <%= audits.length %></p>
+    
+    <% if (audits.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Date/Time</th>
+                    <th>Status</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < audits.length; i++) { 
+                       var audit = audits[i]; %>
+                    <tr>
+                        <td><%= audit.id %></td>
+                        <td><%= audit.username %></td>
+                        <td><%= new Date(audit.login_time).toLocaleString() %></td>
+                        <td>
+                            <% if (audit.success) { %>
+                                Success
+                            <% } else { %>
+                                Failed
+                            <% } %>
+                        </td>
+                        <td><%= audit.ip_address %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No login attempts recorded yet.</p>
+    <% } %>
+    
+    <br>
+</body>
+</html>
+
