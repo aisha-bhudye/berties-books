@@ -38,4 +38,4 @@ This application implements audit logging to track all login attempts for securi
 ### Features:
 - Timestamps are automatically recorded using MySQL's `CURRENT_TIMESTAMP`
 - IP addresses are captured from the request object
-- Records are displayed in reverse chronological order (newest first)
+- Records are displayed in reverse chronological order (newest first). 
