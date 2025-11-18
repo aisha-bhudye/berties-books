@@ -109,6 +109,16 @@ input[type="text"]:focus {
     border-color: #3498db;
 }
 
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+
 button {
     background-color: #3498db;
     color: white;
