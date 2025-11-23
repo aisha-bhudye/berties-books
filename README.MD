@@ -39,6 +39,193 @@ This application implements audit logging to track all login attempts for securi
 - IP addresses are captured from the request object
 - Records are displayed in reverse chronological order (newest first). 
 
+# Lab 8 – Authorisation, Validation & Sanitisation
+
+## Part A — Authorisation (Lab 8a)
+
+### express-session
+
+I installed and configured `express-session` in `index.js`:
+```js
+app.use(
+  session({
+    secret: 'somerandomstuff',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { expires: 600000 }
+  })
+);
+```
+
+This enables session management so the application can remember if a user is logged in.
+
+---
+
+### Creating the login session
+
+When a user logs in successfully, their username is stored in the session:
+```js
+req.session.userId = req.body.username;
+```
+
+This allows the app to identify the logged-in user on future requests.
+
+---
+
+### Access Control (redirectLogin middleware)
+```js
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId) {
+        res.redirect('./login');
+    } else {
+        next();
+    }
+};
+```
+
+This middleware ensures that certain pages can only be viewed by authenticated users.
+
+---
+
+### Protected Routes
+
+I applied `redirectLogin` to:
+
+* `/users/list`
+* `/users/audit`
+* `/users/logout`
+
+**Reasoning:**  
+These pages contain sensitive information (user data and login audit logs). They must not be viewable by visitors who are not logged in.
+
+**Routes left public:**
+
+* `/users/register`
+* `/users/login`
+* Homepage
+
+These must remain accessible to every user.
+
+---
+
+### Logout
+
+Implemented logout:
+```js
+req.session.destroy(...)
+```
+
+This fully clears the session so the user is logged out securely.
+
+---
+
+## Part B — Validation (Lab 8bc)
+
+I used **express-validator** to validate all input fields on the registration form.
+
+---
+
+### Validation rules
+
+Added inside the `/registered` POST route:
+```js
+check("email").isEmail().withMessage("Invalid email address"),
+check("username").isLength({ min: 5, max: 20 }).withMessage("Username must be 5–20 characters"),
+check("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters long"),
+check("first").notEmpty().withMessage("First name required"),
+check("last").notEmpty().withMessage("Last name required")
+```
+
+**Reasoning:**
+
+* Emails must be valid
+* Usernames must be long enough to avoid duplicates or unsafe data
+* Passwords must meet minimum security standards
+* First and last name cannot be blank
+
+If validation fails, the user is returned to the registration page with detailed error messages.
+
+---
+
+### Displaying validation errors
+
+Errors appear at the top of the `register.ejs` form:
+```ejs
+<% if (errors.length > 0) { %>
+  <div style="color:red;">
+    <ul>
+      <% errors.forEach(err => { %>
+        <li><%= err.msg %></li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>
+```
+
+This improves usability and prevents invalid data from being saved to the database.
+
+---
+
+## Part C — Sanitisation (Lab 8bc)
+
+I added **express-sanitizer** to remove potentially dangerous input.
+
+In `index.js`:
+```js
+app.use(expressSanitizer());
+```
+
+---
+
+### Sanitisation applied to user input
+```js
+let first = req.sanitize(req.body.first);
+let last = req.sanitize(req.body.last);
+let username = req.sanitize(req.body.username);
+let email = req.sanitize(req.body.email);
+```
+
+This removes harmful HTML/JS that could be used in a Cross-Site Scripting (XSS) attack.
+
+---
+
+### XSS Testing
+
+I tested the application with:
+```
+Henry <script>alert("Hacked!")</script>
+```
+
+Before sanitisation, this displayed a JavaScript popup.
+
+After sanitisation:
+
+* No popup appeared
+* Script tags were removed
+* The input was displayed safely
+
+**This confirms the application is protected from XSS.**
+
+---
+
+### Fields intentionally *not* sanitised
+
+* **Password**
+
+**Reason:** Sanitising passwords can remove characters, altering the value before hashing. This would cause failed logins and corrupt stored hashes.
+
+All other user-submitted text fields were sanitised because they appear in HTML responses and could otherwise introduce XSS.
+
+---
+
+## Other Sanitisation Notes
+
+* Numeric IDs and backend-only fields were not sanitised because they never appear in a browser and do not pose XSS risk.
+* Only text fields were sanitised since those are most likely to contain unsafe HTML or JS.
+
+---
+
+
 ### AI Declaration
 
 I acknowledge the use of [1] ChatGPT (https://chat.openai.com/) to [2] assist with identifying and debugging errors in my code, clarifying programming concepts, and suggesting improvements to code structure. I entered the following prompts on 16-19 November 2025:

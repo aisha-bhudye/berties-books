@@ -1,18 +1,39 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Register for <%=shopData.shopName%></title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
-  </head>
-  <body>
-    <h1>Register for <%=shopData.shopName%></h1>
+<head>
+    <title>Register for <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+    <h1>Register for <%= shopData.shopName %></h1>
+
+    <% if (errors.length > 0) { %>
+        <div style="color:red; margin-bottom:20px;">
+            <ul>
+                <% errors.forEach(function(err) { %>
+                    <li><%= err.msg %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
     <form method="POST" action="/users/registered">
-        First name: <input type="text" name="first"><br>
-        Last name: <input type="text" name="last"><br>
-        Email: <input type="email" name="email"><br>
-        Username: <input type="text" name="username"><br>
-        Password: <input type="password" name="password"><br>
+        <label>First name:</label>
+        <input type="text" name="first"><br>
+
+        <label>Last name:</label>
+        <input type="text" name="last"><br>
+
+        <label>Email:</label>
+        <input type="email" name="email"><br>
+
+        <label>Username:</label>
+        <input type="text" name="username"><br>
+
+        <label>Password:</label>
+        <input type="password" name="password"><br>
+
         <button type="submit">Register</button>
-      </form>
-  </body>
+    </form>
+</body>
 </html>
