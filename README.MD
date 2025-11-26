@@ -154,9 +154,9 @@ Errors appear at the top of the `register.ejs` form:
 <% if (errors.length > 0) { %>
   <div style="color:red;">
     <ul>
-      <% errors.forEach(err => { %>
-        <li><%= err.msg %></li>
-      <% }); %>
+      <% var i = 0; i < errors.length; i++{ %>
+        <li><%= errors[i].msg%></li>
+      <% }; %>
     </ul>
   </div>
 <% } %>
@@ -228,7 +228,7 @@ All other user-submitted text fields were sanitised because they appear in HTML 
 
 ### AI Declaration
 
-I acknowledge the use of [1] ChatGPT (https://chat.openai.com/) to [2] assist with identifying and debugging errors in my code, clarifying programming concepts, and suggesting improvements to code structure. I entered the following prompts on 16-19 November 2025:
+I acknowledge the use of [1] ChatGPT (https://chat.openai.com/) to [2] assist with identifying and debugging errors in my code, clarifying programming concepts, and suggesting improvements to code structure. I entered the following prompts on Accessed: 16 November 2025 - 4 Decemeber 2025:
 
 [3] Example prompts used:
 
@@ -242,4 +242,4 @@ I acknowledge the use of [1] ChatGPT (https://chat.openai.com/) to [2] assist wi
 
 ## Reference
 
-OpenAI (2025) ChatGPT [Generative AI model]. Available at: https://chat.openai.com/ (Accessed: 16-19 November 2025).
+OpenAI (2025) ChatGPT [Generative AI model]. Available at: https://chat.openai.com/ (Accessed: 16 November 2025 - 4 Decemeber 2025).
