@@ -1,42 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
+    <title>Weather Forecast</title>
     <link rel="stylesheet" href="/main.css"> 
 </head>
 
 <body>
-    <h1>Weather</h1>
+    <h1>Weather Forecast</h1>
 
     <form method="get" action="/weather">
-        <label>
-            City:
-            <input type="text" name="city" value="<%= queryCity %>">
-        </label>
-        <button type="submit">Search</button>
+        <label for="city">Enter city name:</label>
+        <input type="text" id="city" name="city" value="<%= queryCity %>">
+        <button type="submit">Get Weather</button>
     </form>
 
     <hr>
 
     <% if (error) { %>
-        <p style="color: red;">
-            <strong>Error:</strong> <%= error %>
-        </p>
+        <p style="color: red;">Error: <%= error %></p>
     <% } %>
 
     <% if (weather) { %>
-        <h2><%= weather.city %></h2>
-        <p><strong><%= weather.temp %>°C</strong> — <%= weather.description %></p>
-
-        <ul>
-            <li>Humidity: <%= weather.humidity %>%</li>
-            <li>Wind Speed: <%= weather.wind %> m/s</li>
-        </ul>
+        <h2>Weather in <%= weather.city %></h2>
+        <p>Temperature: <%= weather.temp %> degrees Celsius</p>
+        <p>Description: <%= weather.description %></p>
+        <p>Humidity: <%= weather.humidity %>%</p>
+        <p>Wind Speed: <%= weather.wind %> m/s</p>
     <% } %>
 
-    <br><br>
+    <br>
     <a href="/">Back to Home</a>
 </body>
 </html>
